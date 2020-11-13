@@ -1,0 +1,62 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>The Writer</title>
+    <link rel="shortcut icon" href="../create-black-18dp.svg" />
+    <link rel="stylesheet" href="style.css">
+    <link href="https://fonts.googleapis.com/icon?family=Material+Icons" rel="stylesheet">
+</head>
+
+<body onload="create()">
+    <h1 class="title">The Writer</h1>
+    <div class="box">
+        <div id='teste'></div>
+        <div class="nav-top">
+            <div class="align-box">
+                <i class="material-icons" onclick="align(this)" id="center">format_align_center</i>
+                <i class="material-icons" onclick="align(this)" id="justify">format_align_justify</i>
+                <i class="material-icons" onclick="align(this)" id="left">format_align_left</i>
+                <i class="material-icons" onclick="align(this)" id="right">format_align_right</i>
+            </div>
+            <div class="font-box">
+                <i class="material-icons" onclick="boldTxt()">format_bold</i>
+            </div>
+            <div class="color-box">
+                <i class="color-icons material-icons">format_color_text</i>
+                <p class="color-icons" onclick="changeColor(this)" id="black"></p>
+                <p class="color-icons" onclick="changeColor(this)" id="white"></p>
+                <p class="color-icons" onclick="changeColor(this)" id="red"></p>
+                <p class="color-icons" onclick="changeColor(this)" id="green"></p>
+                <p class="color-icons" onclick="changeColor(this)" id="blue"></p>
+                <p class="color-icons" onclick="changeColor(this)" id="gray"></p>
+                <p class="color-icons" onclick="changeColor(this)" id="yellow"></p>
+                <p class="color-icons" onclick="changeColor(this)" id="purple"></p>
+            </div>
+            <div class="save-print-box">
+                <i class="material-icons" onclick="saveData()">save</i>
+                <i class="material-icons" onclick="window.print()">local_printshop</i>
+            </div>
+        </div>
+
+        <div class="subbox">
+            <div class="side-nav">
+                <h3 class="side-nav-title" color="red">Image Library</h3>
+                <div class="dropzone" id="img-lib">
+
+                </div>
+            </div>
+            <div class="paper">
+                <div id="writer-area" class="dropzone">
+
+                </div>
+            </div>
+        </div>
+    </div>
+    <html>
+    <script src="main.js" defer></script>
+</body>
+
+</html>
