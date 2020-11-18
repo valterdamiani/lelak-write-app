@@ -32,7 +32,7 @@
     .left-nav {
         max-width: 22%;
         min-width: 200px;
-        height: 213mm;
+        height: 218mm;
         margin: 2%;
         background-color: rgb(100, 170, 196);
         overflow: scroll;
@@ -78,7 +78,7 @@
     }
     
     .material-icons:hover {
-        background-color: rgb(111, 173, 197);
+        background-color: rgb(87, 159, 185);
     }
     
     .font-size-field {
@@ -135,10 +135,6 @@
     #purple {
         background-color: purple;
     }
-    /* .card {
-        width: 100%;
-        padding: 0;
-    } */
     
      ::-webkit-scrollbar {
         width: 10px;
@@ -187,8 +183,6 @@
     
     .droppable-img {
         width: 93%;
-        /* margin: 2% 10%; */
-        /* margin-right: 0; */
         cursor: move;
         cursor: grab;
         cursor: -moz-grab;
@@ -217,11 +211,6 @@
         text-decoration: none;
         outline: none;
         background-color: white;
-        /* margin: 0;
-    padding: 0; */
-        /* display: block;
-    resize: none;
-    padding: 5px; */
         text-indent: 25px;
         text-decoration: none;
         outline: none;
@@ -302,9 +291,6 @@
     @media print {
         @page rotated {
             size: A4 portrait;
-            /* size: 147mm 207.9mm portrait; */
-            /* width: 147mm;*/
-            /* height: 20mm; */
             margin: 3cm;
         }
         .paper {
@@ -318,9 +304,6 @@
             top: 0;
             left: 0;
             margin: 0;
-            /* margin-right: 5cm; */
-            /* font-size: 14px; */
-            /* line-height: 18px; */
             background-color: violet;
             text-align: center;
         }
@@ -330,16 +313,6 @@
             margin: 0;
             border: none;
             font-size: 165% !important;
-            /* background-color: orange;
-            width: 210mm;
-            height: 297mm;
-            width: 98%; */
-            /*   
-            text-decoration: none;
-            outline: none;
-            display: block;
-            resize: none;
-            text-indent: 25px;*/
         }
     }
     /* .top-nav {
