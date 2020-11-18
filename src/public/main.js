@@ -1,85 +1,7 @@
-var cards = document.querySelectorAll('.card');
+// Get all droppable imagens in the page
+var imgs = document.querySelectorAll('.droppable-img');
+// Get the drop points
 var dropzones = document.querySelectorAll('.dropzone');
-
-
-// geting cards of start point
-cards.forEach(card => {
-    card.addEventListener('dragstart', dragstart);
-    card.addEventListener('dragend', dragend);
-})
-
-function dragstart() {
-    dropzones.forEach(dropzone => dropzone.classList.add('highlight'));
-    this.classList.add('is-dragging');
-}
-
-function dragend() {
-    dropzones.forEach(dropzone => dropzone.classList.remove('highlight'))
-    this.classList.remove('is-dragging')
-}
-
-// Card drop location
-dropzones.forEach(dropzone => {
-    dropzone.addEventListener('dragover', e => {
-        e.preventDefault()
-        const afterElement = getDragAfterElement(dropzone, e.clientY)
-        const card = document.querySelector('.is-dragging');
-        if (afterElement == null) {
-            dropzone.appendChild(card)
-        } else {
-            dropzone.insertBefore(card, afterElement)
-        }
-    });
-    dropzone.addEventListener('dragleave', dragleave);
-    dropzone.addEventListener('drop', drop);
-});
-
-function getDragAfterElement(dropzone, y) {
-    const draggableElements = [...dropzone.querySelectorAll('.card:not(.is-dragging)')]
-
-    return draggableElements.reduce((closest, child) => {
-        const box = child.getBoundingClientRect();
-        const offset = y - box.top - box.height / 2;
-        if (offset < 0 && offset > closest.offset) {
-            return { offset: offset, element: child }
-        } else {
-            return closest
-        }
-    }, { offset: Number.NEGATIVE_INFINITY }).element
-}
-
-function dragleave() {
-    this.classList.remove('over');
-}
-
-function drop() {
-    this.classList.remove('over');
-}
-
-function insertAfter(referenceNode, newNode) {
-    referenceNode.parentNode.insertBefore(newNode, referenceNode.nextSibling);
-}
-
-let writerArea = document.getElementById('writer-area');
-document.getElementById('writer-area').addEventListener('click', writer);
-
-function writer() {
-    let textArea = document.createElement('textarea');
-    writerArea.appendChild(textArea);
-    textArea.className = 'textarea';
-    textArea.focus();
-    textArea.setAttribute('onkeyup', "textAreaAdjust(this)");
-    textArea.setAttribute('onkeydown', "textAreaAdjust(this)");
-    textArea.addEventListener('click', e => {
-        e.preventDefault()
-        e.stopPropagation();
-    })
-}
-
-function textAreaAdjust(element) {
-    element.style.height = "2px";
-    element.style.height = (25 + element.scrollHeight) + "px";
-}
 
 // create default database to use if the localStorage is 0
 const defaultImgLibrary = [
@@ -100,53 +22,49 @@ const defaultImgLibrary = [
 
 // insert default database to use if the localStorage is 0
 function create() {
-    if (localStorage.length == 0) {
-        for (let i = 0; i < defaultImgLibrary.length; i++) {
-            let imgLibDef = document.getElementById('img-lib');
-            let card = document.createElement('div');
-            let img = document.createElement('img');
-            let url = defaultImgLibrary[i];
+    // for (i = 0; i < localStorage.length; i++) {
+    //     let checkStorage = localStorage.getItem('urlPosition' + i);
+    //     if (checkStorage != null) {
+    //         for (i = 0; i < localStorage.length; i++) {
+    //             let imgLibDef = document.getElementById('img-lib');
+    //             let img = document.createElement('img');
+    //             let url = localStorage.getItem('urlPosition' + i)
 
-            card.className = 'card';
-            card.setAttribute('draggable', 'true');
-            img.className = 'droppable-img';
+    //             img.className = 'droppable-img';
+    //             img.setAttribute('draggable', 'true');
+    //             img.setAttribute('id', 'a' + i);
+    //             img.setAttribute('src', url);
+    //             imgLibDef.appendChild(img);
 
-            imgLibDef.appendChild(card);
-            card.appendChild(img);
-            img.setAttribute('src', url);
 
-            let cards = document.querySelectorAll('.card');
+    //             let imgs = document.querySelectorAll('.droppable-img');
+    //             imgs.forEach(img => {
+    //                 img.addEventListener('dragstart', dragstart);
+    //                 img.addEventListener('dragend', dragend);
+    //             })
+    //         }
+    //     } else {
 
-            cards.forEach(card => {
-                card.addEventListener('dragstart', dragstart);
-                card.addEventListener('dragend', dragend);
-            })
-        }
-    } else {
+    for (let i = 0; i < defaultImgLibrary.length; i++) {
+        let imgLibDef = document.getElementById('img-lib');
+        let img = document.createElement('img');
+        let url = defaultImgLibrary[i];
+        let imgs = document.querySelectorAll('.droppable-img');
 
-        for (i = 0; i < localStorage.length; i++) {
-            let imgLibDef = document.getElementById('img-lib');
-            let card = document.createElement('div');
-            let img = document.createElement('img');
-            let url = localStorage.getItem('urlPosition' + i)
-            card.className = 'card';
-            card.setAttribute('draggable', 'true');
-            img.className = 'droppable-img';
+        img.className = 'droppable-img';
+        img.setAttribute('draggable', 'true');
+        img.setAttribute('id', 'a' + i);
+        img.setAttribute('src', url);
+        imgLibDef.appendChild(img);
 
-            imgLibDef.appendChild(card);
-            card.appendChild(img);
-            img.setAttribute('src', url);
-
-            let cards = document.querySelectorAll('.card');
-
-            cards.forEach(card => {
-                card.addEventListener('dragstart', dragstart);
-                card.addEventListener('dragend', dragend);
-            })
-        }
+        imgs.forEach(img => {
+            img.addEventListener('dragstart', dragstart);
+            img.addEventListener('dragend', dragend);
+        })
     }
+    // }
+    // }
 }
-
 
 // align text off document using switch cases
 function align(element) {
@@ -168,102 +86,535 @@ function align(element) {
             break
     }
 
-    let alignTxt = document.querySelectorAll('.textarea');
-    let alignPaper = document.getElementsByClassName('paper');
+    let fSize = document.getElementById('fSize').value;
+    let alignTxt = document.getElementById('writer-area');
+    let fWeight = alignTxt.style.fontWeight;
+    let fcolor = alignTxt.style.color;
+    let italic = alignTxt.style.fontStyle;
+    let underline = alignTxt.style.textDecoration;
 
-    alignPaper[0].setAttribute('style', 'text-align:' + alignedItem + ';');
-
-    alignTxt.forEach(alignItem => {
-        let height = alignItem.style.height;
-        let fWeight = alignItem.style.fontWeight;
-        let fcolor = alignItem.style.color;
-
-        alignItem.setAttribute('style', "text-align:" + alignedItem +
-            "; height:" + height + "; font-weight: " + fWeight + "; color: " + fcolor + ";");
-    });
+    alignTxt.setAttribute('style',
+        "text-align:" + alignedItem +
+        "; font-weight: " + fWeight +
+        "; color: " + fcolor +
+        "; font-style: " + italic +
+        "; text-decoration: " + underline +
+        "; font-size: " + fSize + 'px' +
+        ";");
 }
 
-function boldTxt() {
-    let toBold = document.querySelectorAll('.textarea');
-    toBold.forEach(bold => {
-        let height = bold.style.height;
-        let fcolor = bold.style.color;
-        let align = bold.style.textAlign;
+// Transform text to bold
+function toBold() {
+    let fSize = document.getElementById('fSize').value;
+    let boldTxt = document.getElementById('writer-area');
+    let alignedItem = boldTxt.style.textAlign;
+    let fcolor = boldTxt.style.color;
+    let italic = boldTxt.style.fontStyle;
+    let underline = boldTxt.style.textDecoration;
+    let wheight = boldTxt.style.fontWeight;
+    let fWeight;
 
-        bold.setAttribute('style', "text-align:" + align +
-            "; height:" + height + "; font-weight: bolder ; color: " + fcolor + ";");
-    });
+    if (wheight == 'bolder') {
+        fWeight = ' normal';
+    } else {
+        fWeight = ' bolder';
+    }
+
+    boldTxt.setAttribute('style',
+        "text-align:" + alignedItem +
+        "; font-weight: " + fWeight +
+        "; color: " + fcolor +
+        "; font-style: " + italic +
+        "; text-decoration: " + underline +
+        "; font-size: " + fSize + 'px' +
+        ";");
 }
 
+// Transform text to italic
+function toItalic() {
+    let fSize = document.getElementById('fSize').value;
+    let italicTxt = document.getElementById('writer-area');
+    let alignedItem = italicTxt.style.textAlign;
+    let fcolor = italicTxt.style.color;
+    let italicStyle = italicTxt.style.fontStyle;
+    let underline = italicTxt.style.textDecoration;
+    let fWeight = italicTxt.style.fontWeight;
+    let toItalic;
+
+    if (italicStyle == 'italic') {
+        toItalic = 'normal';
+    } else {
+        toItalic = 'italic';
+    }
+
+    italicTxt.setAttribute('style',
+        "text-align:" + alignedItem +
+        "; font-weight: " + fWeight +
+        "; color: " + fcolor +
+        "; font-style: " + toItalic +
+        "; text-decoration: " + underline +
+        "; font-size: " + fSize + 'px' +
+        ";");
+}
+
+// Transform text to underline style
+function toUnderline() {
+    let fSize = document.getElementById('fSize').value;
+    let underlineTxt = document.getElementById('writer-area');
+    let alignedItem = underlineTxt.style.textAlign;
+    let fcolor = underlineTxt.style.color;
+    let italic = underlineTxt.style.fontStyle;
+    let under = underlineTxt.style.textDecoration;
+    let fWeight = underlineTxt.style.fontWeight;
+    let toUnderline;
+
+    if (under == 'underline') {
+        toUnderline = 'normal';
+    } else {
+        toUnderline = 'underline'
+    }
+
+
+    underlineTxt.setAttribute('style',
+        "text-align:" + alignedItem +
+        "; font-weight: " + fWeight +
+        "; color: " + fcolor +
+        "; font-style: " + italic +
+        "; text-decoration: " + toUnderline +
+        "; font-size: " + fSize + 'px' +
+        ";");
+}
+
+// Change the font size of page content
+function changeFontSize(element) {
+    let fSize = document.getElementById('fSize').value;
+    if (element.id == 'up') {
+        fSize++;
+    } else {
+        fSize = fSize - 1;
+    }
+    document.getElementById('writer-area').style.fontSize = fSize + 'px';
+    document.getElementById('fSize').value = fSize;
+}
+
+// Change color of write area
 function changeColor(element) {
     switch (element.id) {
         case 'black':
-            color = 'color: black';
+            color = 'black';
             break;
 
         case 'white':
-            color = 'color: white';
+            color = 'white';
             break;
 
         case 'red':
-            color = 'color: red';
+            color = 'red';
             break;
 
         case 'green':
-            color = 'color: green';
+            color = 'green';
             break;
 
         case 'blue':
-            color = 'color: blue';
+            color = 'blue';
             break;
 
         case 'gray':
-            color = 'color: gray';
+            color = 'gray';
             break;
 
         case 'yellow':
-            color = 'color: yellow';
+            color = 'yellow';
             break;
 
         case 'purple':
-            color = 'color: purple';
+            color = 'purple';
             break;
     };
 
-    let toChangeColor = document.querySelectorAll('.textarea');
-    toChangeColor.forEach(changeColor => {
-        let height = changeColor.style.height;
-        let fWeight = changeColor.style.fontWeight;
-        let align = changeColor.style.textAlign;
+    let changeColorTo = document.getElementById('writer-area');
+    let fSize = document.getElementById('fSize').value;
+    let alignedItem = changeColorTo.style.textAlign;
+    let italic = changeColorTo.style.fontStyle;
+    let under = changeColorTo.style.textDecoration;
+    let fWeight = changeColorTo.style.fontWeight;
 
-        changeColor.setAttribute('style', color + "; height:" + height + "; font-weight:" + fWeight + "; text-align:" + align + ";");
-    });
+    changeColorTo.setAttribute('style',
+        "text-align:" + alignedItem +
+        "; font-weight: " + fWeight +
+        "; color: " + color +
+        "; font-style: " + italic +
+        "; text-decoration: " + under +
+        "; font-size: " + fSize + 'px' +
+        ";");
 };
+
+function clearPage() {
+    let startModal = document.getElementById('title');
+    let backgroundModal = document.createElement('div');
+    let modal = document.createElement('div');
+    let modalTitle = document.createElement('h1');
+    let modalText = document.createElement('p');
+    let btnBox = document.createElement('div')
+    let confirmBtn = document.createElement('button');
+    let cancelBtn = document.createElement('button');
+
+    startModal.appendChild(backgroundModal);
+    backgroundModal.appendChild(modal);
+    modal.appendChild(modalTitle);
+    modal.appendChild(modalText);
+    modal.appendChild(btnBox);
+    btnBox.appendChild(cancelBtn);
+    btnBox.appendChild(confirmBtn);
+
+    backgroundModal.className = 'background-modal';
+    modal.className = 'modal';
+    modalTitle.className = 'modal-title';
+    modalText.className = 'modal-txt';
+    btnBox.className = 'box-btn';
+    cancelBtn.className = 'cancel-btn';
+    confirmBtn.className = 'confirm-btn'
+
+    modalTitle.innerHTML = 'New Page';
+    modalText.innerHTML = 'Você tem certeza que deseja abrir uma nova pagina, as informações da pagina anterior serão perdidas!'
+    cancelBtn.innerHTML = 'Cancel';
+    confirmBtn.innerHTML = 'Confirm';
+    confirmBtn.setAttribute('onclick', 'newPage()')
+
+    backgroundModal.addEventListener('click', function() {
+        backgroundModal.style.display = 'none'
+    })
+}
+
+function newPage() {
+    localStorage.clear();
+    document.getElementById('writer-area').value = '';
+}
+
+// geting imgs of start point
+imgs.forEach(img => {
+    img.addEventListener('dragstart', dragstart);
+    img.addEventListener('drag', drag);
+    img.addEventListener('dragend', dragend);
+})
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+function dragstart() {
+    // dropzones.forEach(dropzone => dropzone.classList.add('highlight'));
+    this.classList.add('is-dragging');
+    // console.log(e.clientX);
+    // console.log(e.clientY);
+}
+
+function drag() {
+    console.log('dragging');
+    this.classList.add('dragging');
+    // console.log(e.clientX);
+    // console.log(e.clientY);
+    console.log('evento 1');
+
+}
+
+function dragend(e) {
+    this.classList.remove('is-dragging')
+
+    // });
+    // console.log(imgsInsideLib);
+    // dropzones.forEach(dropzone => dropzone.classList.remove('highlight'))
+
+    // console.log(index);
+    // let libImg = lib.querySelectorAll('.droppable-img');
+    // console.log(e.clientX);
+    // console.log(e.clientY);
+    let pos1 = 0,
+        pos2 = 0,
+        pos3 = 0,
+        pos4 = 0;
+
+    pos1 = pos3 - e.clientX;
+    pos2 = pos4 - e.clientY;
+    pos3 = e.clientX;
+    pos4 = e.clientY;
+
+    let movedImgId = this.id;
+    // let index = movedImId.substring(1, 3)
+    // index = index - 1;
+    // console.log(index);
+
+    // console.log(pos1, pos2, pos3, pos4);
+    // let elmnt = document.querySelectorAll('.droppable-img');
+    let elmnt = document.getElementById(movedImgId)
+        // elmnt.forEach(el => {
+        // console.log(elmnt);
+
+    // elmnt = elmnt[index];
+    elmnt.classList.add('setImgPos');
+
+    // console.log(elmnt);
+    // elmnt.style.top = (elmnt.offsetTop - pos2) + "px";
+    // elmnt.style.left = (elmnt.offsetLeft - pos1) + "px";
+    pos4 = pos4 - 100;
+    pos3 = pos3 - 268;
+    elmnt.style.top = pos4 + 'px';
+    elmnt.style.left = pos3 + 'px';
+    // console.log(pos4, pos3);
+    // })
+    console.log('evento 1');
+
+}
+
+// img drop location
+dropzones.forEach(dropzone => {
+    dropzone.addEventListener('dragover', e => {
+        e.preventDefault()
+        const afterElement = getDragAfterElement(dropzone, e.clientY)
+        let img = document.querySelector('.is-dragging');
+
+        // let teste = img.classList
+        // teste = teste.remove('setImgPos');
+        // console.log(teste);
+        img.classList.remove('setImgPos')
+            // console.log(img);
+
+        if (afterElement == null) {
+            dropzone.appendChild(img)
+        } else {
+            dropzone.insertBefore(img, afterElement)
+
+        }
+    });
+
+    dropzone.addEventListener('dragleave', dragleave);
+    dropzone.addEventListener('drop', drop);
+
+    // let imgsInsideLib = document.getElementById('img-lib');
+    // // imgsInsideLib.addEventListener('dragover', e => {
+
+    // console.log(imgsInsideLib)
+    // img.classList.remove('setImgPos')
+    // console.log(img);
+});
+
+function getDragAfterElement(dropzone, y) {
+    const draggableElements = [...dropzone.querySelectorAll('.droppable-img:not(.is-dragging)')]
+
+    return draggableElements.reduce((closest, child) => {
+        const box = child.getBoundingClientRect();
+        const offset = y - box.top - box.height / 2;
+        if (offset < 0 && offset > closest.offset) {
+            return { offset: offset, element: child }
+        } else {
+            return closest
+        }
+    }, { offset: Number.NEGATIVE_INFINITY }).element
+}
+
+function dragleave() {
+    this.classList.remove('over');
+}
+
+function drop(e) {
+    this.classList.remove('over');
+    console.log('evento 2');
+    // console.log(e.clientX);
+    // console.log(e.clientY);
+}
+
+function insertAfter(referenceNode, newNode) {
+    referenceNode.parentNode.insertBefore(newNode, referenceNode.nextSibling);
+}
+
+// let writerArea = document.getElementById('writer-area');
+// document.getElementById('writer-area').addEventListener('click', writer);
+
+// function writer() {
+//     let textArea = document.createElement('textarea');
+//     writerArea.appendChild(textArea);
+//     textArea.className = 'textarea';
+//     textArea.focus();
+//     textArea.setAttribute('onkeyup', "textAreaAdjust(this)");
+//     textArea.setAttribute('onkeydown', "textAreaAdjust(this)");
+//     textArea.addEventListener('click', e => {
+//         e.preventDefault()
+//         e.stopPropagation();
+//     })
+// }
+
+// function textAreaAdjust(element) {
+//     element.style.height = "2px";
+//     element.style.height = (25 + element.scrollHeight) + "px";
+// }
+
+
+
+
+
+
+
+// função de seleção de texto
+// function selecionaTexto() {
+//     var startPos = writerArea.selectionStart; //Inicio da selecao
+//     var endPos = writerArea.selectionEnd; //Fim da selecao
+//     selectedText = writerArea.value.substring(startPos, endPos);
+//     console.log(selectedText);
+// }
+
+// function styleText(){
+//     selectedText
+// }
+
+
+
+// function boldTxt() {
+//     let toBold = document.querySelectorAll('.textarea');
+//     toBold.forEach(bold => {
+//         let height = bold.style.height;
+//         let fcolor = bold.style.color;
+//         let align = bold.style.textAlign;
+
+//         bold.setAttribute('style', "text-align:" + align +
+//             "; height:" + height + "; font-weight: bolder ; color: " + fcolor + ";");
+//     });
+// }
+
+
 
 let libImgPositions = [
     { id: 1, url: 'teste.com' }
 ]
 
-function saveData() {
-
-    // updateLocalStorage()
-    localStorage.clear()
-    let paper = document.getElementById('writer-area')
+function saveImgPotision() {
+    // let thisStorage = localStorage;
+    // localStorage.urlPosition1.clear()
+    // console.log(thisStorage);
+    // let paper = document.getElementById('writer-area');
     let lib = document.getElementById('img-lib');
-    let cards = lib.getElementsByClassName('card');
-    let card = cards[0];
-    for (i = 0; i < cards.length; i++) {
-        let content = cards[i].getElementsByClassName('droppable-img');
+    let imgs = lib.getElementsByClassName('droppable-img');
+    console.log(imgs);
+    let img = imgs[0];
+    for (i = 0; i < imgs.length; i++) {
+        let content = imgs[i].getElementsByClassName('droppable-img');
         let src = content[0].src;
         localStorage.setItem('urlPosition' + i, src);
     }
 
     let texts = paper.getElementsByClassName('textarea');
     let txt = texts[0];
-    console.log(txt.textContent);
+    // console.log(txt.textContent);
     for (i = 0; i < texts.length; i++) {
         let txt = texts[i].getElementsByClassName('textarea').textContent;
         console.log(i, txt);
     }
 
 }
+// dragElement(document.getElementById("mydiv"));
+
+// function dragElement(elmnt) {
+//     // var pos1 = 0,
+//     //     pos2 = 0,
+//     //     pos3 = 0,
+//     //     pos4 = 0;
+
+//     elmnt.onmousedown = dragMouseDown;
+// }
+
+// let imgTop = document.getElementById('a0').style.top;
+// addEventListener.document.getElementById('a0').style.top;
+
+// let paper = document.getElementById('writer-area')
+// let getText;
+// paper.addEventListener("selectionchange", getText, false);
+// paper.addEventListener("select", getText, false);
+// paper.addEventListener('selectionchange', console.log('teste'));
+// https://javascript.info/mouse-drag-and-drop
+// ball.style.left = pageX - ball.offsetWidth / 2 + 'px';
+// ball.style.top = pageY - ball.offsetHeight / 2 + 'px';
+
+// ball.onmousedown = function(event) {
+
+//   let shiftX = event.clientX - ball.getBoundingClientRect().left;
+//   let shiftY = event.clientY - ball.getBoundingClientRect().top;
+
+//   ball.style.position = 'absolute';
+//   ball.style.zIndex = 1000;
+//   document.body.append(ball);
+
+//   moveAt(event.pageX, event.pageY);
+
+//   // moves the ball at (pageX, pageY) coordinates
+//   // taking initial shifts into account
+//   function moveAt(pageX, pageY) {
+//     ball.style.left = pageX - shiftX + 'px';
+//     ball.style.top = pageY - shiftY + 'px';
+//   }
+
+//   function onMouseMove(event) {
+//     moveAt(event.pageX, event.pageY);
+//   }
+
+//   // move the ball on mousemove
+//   document.addEventListener('mousemove', onMouseMove);
+
+//   // drop the ball, remove unneeded handlers
+//   ball.onmouseup = function() {
+//     document.removeEventListener('mousemove', onMouseMove);
+//     ball.onmouseup = null;
+//   };
+
+// };
+
+// ball.ondragstart = function() {
+//   return false;
+// };
+
+
+// document.querySelector("button").onclick = function() {
+//     var ta = document.querySelector("textarea");
+//     ta.value = ta.value.substring(0, ta.selectionStart) +
+//         "tchau" +
+//         ta.value.substring(ta.selectionEnd);
+//     console.log(ta.value);
+// }
+
+// writerArea.addEventListener('select', selecionaTexto());
+
+// function selecionaTexto() {
+// var textArea = document.getElementById('texto');
+// var selectedText;
+
+// if (writerArea.selectionStart != undefined) { //Se tiver algo selecionado
+// var startPos = writerArea.selectionStart; //Inicio da selecao
+// var endPos = writerArea.selectionEnd; //Fim da selecao
+// selectedText = writerArea.value.substring(startPos, endPos);
+// console.log(selectedText);
+// if (selectedText == "Oi") { //Se selecao foir "Oi"
+//     var novoTexto = textArea.value.substring(0, startPos) +
+//         "Tchau" + textArea.value.substring(endPos);
+//     textArea.value = novoTexto;
+// }
+// }
+// }
+
+// function selection() {
+//     if (window.getSelection)
+//         return window.getSelection();
+// }
