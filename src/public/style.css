@@ -200,8 +200,9 @@
         max-width: 240px;
     }
     
-    .setImgPos {
-        position: fixed;
+    .set-img-pos {
+        position: absolute;
+        z-index: 10;
         max-width: 150px;
     }
     
@@ -314,4 +315,12 @@
             border: none;
             font-size: 165% !important;
         }
+    }
+    
+    .droppable-div {
+        width: 150px;
+        min-height: 150px;
+        margin-bottom: 20px;
+        background-size: 150px;
+        background-repeat: no-repeat;
     }
