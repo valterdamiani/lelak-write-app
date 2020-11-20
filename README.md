@@ -33,4 +33,4 @@ The ordering of the images in the list is stored in the browser's localStorage, 
 
 ## It can also be executed locally by simply cloning the github repository, and after cloning open the file index.html located in the folder the-writer/src/public/index.html;
  
-## If the system presents any problem in the display of images, just click on the first icon on the right side, to open a new page.
+If the system presents any problem in the display of images, just click on the first icon on the right side, to open a new page.
