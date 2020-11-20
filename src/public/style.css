@@ -1,4 +1,11 @@
     @import url(https://fonts.googleapis.com/css?family=Open+Sans);
+    /* ********************************************** */
+    /*                 The Writer Style               */
+    /* ********************************************** */
+    /* ############################################## */
+    /*              General page settings             */
+    /* ############################################## */
+    
     body {
         font-family: 'Open Sans', serif;
         background-color: #d1dce2cc;
@@ -28,17 +35,167 @@
         margin: 0 auto !important;
         width: 100%;
     }
+    /* ############################################## */
+    /*       stylization of the library elements      */
+    /* ############################################## */
     
     .left-nav {
         max-width: 22%;
         min-width: 200px;
-        height: 218mm;
+        height: 197.5mm;
         margin: 2%;
         background-color: rgb(100, 170, 196);
         overflow: scroll;
         direction: rtl;
         overflow-x: hidden;
     }
+    
+    .side-nav-title {
+        text-align: center;
+        user-select: none;
+        font-size: 17px;
+        color: rgb(7, 7, 97);
+        font-weight: bolder;
+    }
+    
+    .dropzone {
+        width: 94%;
+        height: 96%;
+        z-index: 9;
+        border: none;
+        text-decoration: none;
+        outline: none;
+        padding: 4mm;
+        resize: none;
+    }
+    
+    .droppable-img {
+        width: 93%;
+        cursor: move;
+        cursor: grab;
+        cursor: -moz-grab;
+        cursor: -webkit-grab;
+        z-index: 10;
+    }
+    
+    .droppable-img:active {
+        cursor: grabbing;
+        cursor: -moz-grabbing;
+        cursor: -webkit-grabbing;
+    }
+    
+    .library-options {
+        text-align: center;
+        width: 50%;
+        margin-right: 25%;
+        user-select: none;
+        border: 2px solid rgb(50, 107, 129);
+        position: relative;
+    }
+    
+    .library-options .material-icons {
+        margin-left: 8px;
+        margin-right: 8px;
+    }
+    
+     ::-webkit-scrollbar {
+        width: 10px;
+    }
+    
+     ::-webkit-scrollbar-track {
+        background: #f1f1f1;
+    }
+    
+     ::-webkit-scrollbar-thumb {
+        background: rgb(177, 172, 172);
+    }
+    
+     ::-webkit-scrollbar-thumb:hover {
+        background: rgb(185, 184, 184);
+    }
+    /* ############################################## */
+    /*         stylization of the writing page        */
+    /* ############################################## */
+    
+    .paper {
+        background-color: white;
+        min-width: 132.3mm;
+        height: 187.11mm;
+        margin: 2%;
+        padding: 5mm;
+        font-weight: bold;
+        position: relative;
+    }
+    
+    .paper .droppable-img {
+        max-width: 240px;
+    }
+    
+    .set-img-pos {
+        position: absolute;
+        z-index: 10;
+        max-width: 150px;
+    }
+    
+    .textarea {
+        width: 98%;
+        border: none;
+        text-decoration: none;
+        outline: none;
+        background-color: white;
+        text-indent: 25px;
+        text-decoration: none;
+        outline: none;
+    }
+    
+    .textarea:focus {
+        border: none;
+        text-decoration: none;
+    }
+    /* ############################################## */
+    /*       stylization of modal filter options      */
+    /* ############################################## */
+    
+    .filter-box {
+        width: 145px;
+        margin-right: -19px;
+        background-color: rgba(183, 183, 206, 0.89);
+        border: 1px solid rgba(111, 111, 128, 0.781);
+        text-align: center;
+        position: absolute;
+    }
+    
+    .filter-title {
+        font-size: 22px;
+        user-select: none;
+    }
+    
+    .filter-subtitle {
+        font-size: 18px;
+        user-select: none;
+    }
+    
+    .filter-subbox {
+        display: flex;
+    }
+    
+    .filter-arrows {
+        font-size: 55px;
+        padding: 2px;
+    }
+    
+    .filter-option {
+        font-size: 16px;
+        user-select: none;
+    }
+    
+    .filter-id-box,
+    .filter-name-box {
+        width: 50%;
+    }
+    /* ############################################## */
+    /*     styling of the text formatting toolbar     */
+    /* ############################################## */
     
     .right-nav {
         width: 50px;
@@ -48,33 +205,20 @@
         padding: 8px;
     }
     
-    .library-options {
-        text-align: center;
-        width: 50%;
-        margin-right: 25%;
-        user-select: none;
-        border: 2px solid rgb(50, 107, 129);
-    }
-    
-    .library-options .material-icons {
-        margin-left: 8px;
-        margin-right: 8px;
-    }
-    
     .save-print-box,
     .align-box,
     .font-box,
     .size-box,
     .color-box {
         border: 2px solid rgb(50, 107, 129);
-        margin-bottom: 8%;
+        margin-bottom: 5%;
         user-select: none;
     }
     
     .material-icons {
         margin: 2px;
         cursor: pointer;
-        margin-top: 5px;
+        margin-top: 4px;
     }
     
     .material-icons:hover {
@@ -94,10 +238,11 @@
     }
     
     .color-icons {
-        width: 26px;
-        height: 26px;
-        border-radius: 13px;
+        width: 22px;
+        height: 22px;
+        border-radius: 11px;
         margin: 5px auto;
+        cursor: pointer;
     }
     
     .color-icons:hover {
@@ -135,92 +280,9 @@
     #purple {
         background-color: purple;
     }
-    
-     ::-webkit-scrollbar {
-        width: 10px;
-    }
-    
-     ::-webkit-scrollbar-track {
-        background: #f1f1f1;
-    }
-    
-     ::-webkit-scrollbar-thumb {
-        background: rgb(177, 172, 172);
-    }
-    
-     ::-webkit-scrollbar-thumb:hover {
-        background: rgb(185, 184, 184);
-    }
-    
-    .side-nav-title {
-        text-align: center;
-        user-select: none;
-        font-size: 17px;
-        color: rgb(7, 7, 97);
-        font-weight: bolder;
-    }
-    
-    .paper {
-        background-color: white;
-        min-width: 147mm;
-        height: 207.9mm;
-        margin: 2%;
-        padding: 5mm;
-        font-weight: bold;
-        position: relative;
-    }
-    
-    .dropzone {
-        width: 94%;
-        height: 96%;
-        z-index: 9;
-        border: none;
-        text-decoration: none;
-        outline: none;
-        padding: 4mm;
-        resize: none;
-    }
-    
-    .droppable-img {
-        width: 93%;
-        cursor: move;
-        cursor: grab;
-        cursor: -moz-grab;
-        cursor: -webkit-grab;
-        z-index: 10;
-    }
-    
-    .droppable-img:active {
-        cursor: grabbing;
-        cursor: -moz-grabbing;
-        cursor: -webkit-grabbing;
-    }
-    
-    .paper .droppable-img {
-        max-width: 240px;
-    }
-    
-    .set-img-pos {
-        position: absolute;
-        z-index: 10;
-        max-width: 150px;
-    }
-    
-    .textarea {
-        width: 98%;
-        border: none;
-        text-decoration: none;
-        outline: none;
-        background-color: white;
-        text-indent: 25px;
-        text-decoration: none;
-        outline: none;
-    }
-    
-    .textarea:focus {
-        border: none;
-        text-decoration: none;
-    }
+    /* ############################################## */
+    /*        stylization of the new page modal       */
+    /* ############################################## */
     
     .background-modal {
         position: fixed;
@@ -288,6 +350,9 @@
         text-decoration: none;
         border: none;
     }
+    /* ############################################## */
+    /*                Print page setup                */
+    /* ############################################## */
     
     @media print {
         @page rotated {
@@ -315,12 +380,4 @@
             border: none;
             font-size: 165% !important;
         }
-    }
-    
-    .droppable-div {
-        width: 150px;
-        min-height: 150px;
-        margin-bottom: 20px;
-        background-size: 150px;
-        background-repeat: no-repeat;
     }
