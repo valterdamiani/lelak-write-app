@@ -26,3 +26,11 @@ This change in styling of the text is accomplished by inserting and removing sty
 The content generated on the screen can be printed by the user, maintaining the formatting, clicking on the printer icon or using the shortcut Ctrl + P;
 
 The ordering of the images in the list is stored in the browser's localStorage, using the native localStorage javascript function;
+
+
+
+## The project can be used by accessing github pages through the link https://valterdamiani.github.io/lelak-write-app/src/public/index.html;
+
+## It can also be executed locally by simply cloning the github repository, and after cloning open the file index.html located in the folder the-writer/src/public/index.html;
+ 
+## If the system presents any problem in the display of images, just click on the first icon on the right side, to open a new page.
