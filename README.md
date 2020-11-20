@@ -18,3 +18,11 @@ The list can be sorted using the filters or by dragging the elements;
 The writing area of the page is composed of an HTML TAG - TEXTAREA - which has been styled to simulate an A4 page that can be printed by the user;
 
 The effects of dragging and dropping the images were carried out using the HTML DRAG and DROP API and based on the coordinates of the image when it is dragged across the screen, it is positioned in the document or placed in the list of elements;
+
+The text can be formatted by the user, changing the font size and color, styles such as Bold, Italic and Underline can be added. The text can also be aligned to the right, left, centered or justified;
+
+This change in styling of the text is accomplished by inserting and removing style elements in the HTML tag;
+
+The content generated on the screen can be printed by the user, maintaining the formatting, clicking on the printer icon or using the shortcut Ctrl + P;
+
+The ordering of the images in the list is stored in the browser's localStorage, using the native localStorage javascript function;
