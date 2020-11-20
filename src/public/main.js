@@ -1,4 +1,4 @@
-// create default database to use if the localStorage is 0
+// Create a javascript object with a list of predefined images that will be used in the application
 let imgList = [{
     id: 'img01',
     name: 'lelak-logo',
@@ -49,33 +49,59 @@ let imgList = [{
     url: "https://ak.picdn.net/shutterstock/videos/16876429/thumb/2.jpg"
 }];
 
+
+// create html elements responsible for displaying the images, and insert attributes in those elements
 function create() {
     let imgLibDef = document.getElementById('img-lib');
-    // console.log(imgList);
-    imgList.forEach(imgLine => {
-        let id = imgLine.id;
-        let name = imgLine.name;
-        let url = imgLine.url;
+    if (localStorage.length > 0) {
 
-        let img = document.createElement('img');
-        img.className = 'droppable-img';
-        img.setAttribute('draggable', 'true');
-        img.setAttribute('id', id);
-        img.setAttribute('name', name);
-        img.setAttribute('src', url);
-        imgLibDef.appendChild(img);
+        for (i = 0; i < localStorage.length; i++) {
+            let storageId = localStorage.getItem('id' + i);
+            let storageName = localStorage.getItem('name' + i);
+            let storageUrl = localStorage.getItem('url' + i);
 
-        var getImgs = document.querySelectorAll('.droppable-img');
+            if (storageId != null && storageName != null && storageUrl != null) {
+                let img = document.createElement('img');
+                img.className = 'droppable-img';
+                img.setAttribute('draggable', 'true');
+                img.setAttribute('id', storageId);
+                img.setAttribute('name', storageName);
+                img.setAttribute('src', storageUrl);
+                imgLibDef.appendChild(img);
+                var getImgs = document.querySelectorAll('.droppable-img');
+            }
 
-        getImgs.forEach(imgOpt => {
-            imgOpt.addEventListener('dragstart', dragstart);
-            // imgOpt.addEventListener('drag', drag);
-            imgOpt.addEventListener('dragend', dragend);
-        })
-    });
+            getImgs.forEach(imgOpt => {
+                imgOpt.addEventListener('dragstart', dragstart);
+                imgOpt.addEventListener('dragend', dragend);
+            })
+        }
+    } else {
+        imgList.forEach(imgLine => {
+            let id = imgLine.id;
+            let name = imgLine.name;
+            let url = imgLine.url;
+
+            let img = document.createElement('img');
+            img.className = 'droppable-img';
+            img.setAttribute('draggable', 'true');
+            img.setAttribute('id', id);
+            img.setAttribute('name', name);
+            img.setAttribute('src', url);
+            imgLibDef.appendChild(img);
+
+            var getImgs = document.querySelectorAll('.droppable-img');
+
+            getImgs.forEach(imgOpt => {
+                imgOpt.addEventListener('dragstart', dragstart);
+                imgOpt.addEventListener('dragend', dragend);
+            })
+        });
+    }
 }
 
-// align text off document using switch cases
+
+// Text alignment tool, aligns the text content present in the writing area. Using swich cases
 function align(element) {
     switch (element.id) {
         case 'center':
@@ -112,7 +138,8 @@ function align(element) {
         ";");
 }
 
-// Transform text to bold
+
+// Text 'weight' change tool, changes the text content present in the writing area.
 function toBold() {
     let fSize = document.getElementById('fSize').value;
     let boldTxt = document.getElementById('writer-area');
@@ -139,7 +166,8 @@ function toBold() {
         ";");
 }
 
-// Transform text to italic
+
+// Tool to change the font style to Italian, changes the text content present in the writing area.
 function toItalic() {
     let fSize = document.getElementById('fSize').value;
     let italicTxt = document.getElementById('writer-area');
@@ -166,7 +194,8 @@ function toItalic() {
         ";");
 }
 
-// Transform text to underline style
+
+// Change the decoration of the text to underline, change the text content present in the writing area.
 function toUnderline() {
     let fSize = document.getElementById('fSize').value;
     let underlineTxt = document.getElementById('writer-area');
@@ -183,7 +212,6 @@ function toUnderline() {
         toUnderline = 'underline'
     }
 
-
     underlineTxt.setAttribute('style',
         "text-align:" + alignedItem +
         "; font-weight: " + fWeight +
@@ -194,7 +222,8 @@ function toUnderline() {
         ";");
 }
 
-// Change the font size of page content
+
+// Increase or decrease the font size displayed in the writing area
 function changeFontSize(element) {
     let fSize = document.getElementById('fSize').value;
     if (element.id == 'up') {
@@ -206,7 +235,8 @@ function changeFontSize(element) {
     document.getElementById('fSize').value = fSize;
 }
 
-// Change color of write area
+
+// Changes the color of the text according to the option chosen by the user
 function changeColor(element) {
     switch (element.id) {
         case 'black':
@@ -259,7 +289,8 @@ function changeColor(element) {
         ";");
 };
 
-//Clear the page
+
+// Creates a 'modal' for confirming the creation of a new document
 function clearPage() {
     let startModal = document.getElementById('title');
     let backgroundModal = document.createElement('div');
@@ -297,35 +328,40 @@ function clearPage() {
     })
 }
 
-//get a new page
+
+// Eliminates the content present in the writing area, saves the changes made to the element library and reloads the page
 function newPage() {
     localStorage.clear();
     document.getElementById('writer-area').value = '';
+    saveImgPotision();
+    location.reload();
 }
+
 
 // Get all droppable imagens in the page
 let getImgs = document.querySelectorAll('.droppable-img');
 
+
 // Get the drop points
 const dropzones = document.querySelectorAll('.dropzone');
 
-// geting imagens of start point
+
+// Geting imagens of start point
 getImgs.forEach(card => {
     card.addEventListener('dragstart', dragstart);
-    // card.addEventListener('drag', drag);
     card.addEventListener('dragend', dragend);
-})
+});
 
+
+// Starting image drag
 function dragstart() {
     dropzones.forEach(dropzone => dropzone.classList.add('highlight'));
     this.classList.add('is-dragging');
     this.classList.add('moved');
 }
 
-// function drag() {
-//     console.log('dragging');
-// }
 
+// Captures the drag end of the image and determines the position it is in the writing area using the x and y coordinates
 function dragend(e) {
     dropzones.forEach(dropzone => dropzone.classList.remove('highlight'))
     this.classList.remove('is-dragging');
@@ -348,7 +384,8 @@ function dragend(e) {
     elmnt.style.left = pos3 + 'px';
 }
 
-// Card drop location
+
+// Identifies the image release location and inserts it in the list of predefined elements or positions the image in the writing area
 dropzones.forEach(dropzone => {
     dropzone.addEventListener('dragover', e => {
         e.preventDefault();
@@ -368,9 +405,10 @@ dropzones.forEach(dropzone => {
         }
     });
     dropzone.addEventListener('dragleave', dragleave);
-    // dropzone.addEventListener('drop', drop);
 });
 
+
+// Determines the position of the list where the dragged element is to be repositioned
 function getDragAfterElement(dropzone, y) {
     const draggableElements = [...dropzone.querySelectorAll('.droppable-img:not(.is-dragging)')]
 
@@ -385,10 +423,13 @@ function getDragAfterElement(dropzone, y) {
     }, { offset: Number.NEGATIVE_INFINITY }).element
 }
 
+
 function dragleave() {
     this.classList.remove('over');
 }
 
+
+// Displays element with filter options for the library of predefined elements
 function openFilter() {
     let getFilterModal = document.getElementById('filterBox')
     if (getFilterModal.style.display == 'none') {
@@ -398,6 +439,8 @@ function openFilter() {
     }
 }
 
+
+// Sorts the elements according to the option selected by the user
 function orderBy(element) {
     let list;
     let imgLibDef = document.getElementById('img-lib');
@@ -437,171 +480,37 @@ function orderBy(element) {
 
         getImgs.forEach(imgOpt => {
             imgOpt.addEventListener('dragstart', dragstart);
-            // imgOpt.addEventListener('drag', drag);
             imgOpt.addEventListener('dragend', dragend);
         })
     });
+    saveImgPotision();
 }
 
 
-
-
+// Saves the position of the library images with each movement of one of these elements
 function saveImgPotision() {
-
-    // let list;
+    localStorage.clear()
     let imgLibDef = document.getElementById('img-lib');
     let all = imgLibDef.querySelectorAll('.droppable-img:not(.moved)');
     console.log(all);
 
     for (i = 0; i < all.length; i++) {
-        // let id = all[i].id;
-        imgList = {
-            id: all[i].id,
-            name: all[i].name,
-        }
-        const savedList = Object.assign(imgList)
-        console.log(savedList);
+        localStorage.setItem('id' + i, all[i].id);
+        localStorage.setItem('name' + i, all[i].name);
+        localStorage.setItem('url' + i, all[i].src);
     }
-
-    let getFilterModal = document.getElementById('filterBox');
-
-
-    // let thisStorage = localStorage;
-    // localStorage.urlPosition1.clear()
-    // console.log(thisStorage);
-    // let paper = document.getElementById('writer-area');
-    // let lib = document.getElementById('img-lib');
-    // let imgs = lib.getElementsByClassName('droppable-img');
-    // console.log(imgs);
-    // let img = imgs[0];
-    // for (i = 0; i < imgs.length; i++) {
-    //     let content = imgs[i].getElementsByClassName('droppable-img');
-    //     let src = content[0].src;
-    //     localStorage.setItem('urlPosition' + i, src);
-    // }
-
-    // let texts = paper.getElementsByClassName('textarea');
-    // let txt = texts[0];
-    // // console.log(txt.textContent);
-    // for (i = 0; i < texts.length; i++) {
-    //     let txt = texts[i].getElementsByClassName('textarea').textContent;
-    //     console.log(i, txt);
-    // }
-
 }
 
 
+// listen drop events performed on the screen and triggers the 'save elements' function to save the new position
+document.getElementById('img-lib').addEventListener('drop', e => {
+    console.log('saveImgPotision');
+    saveImgPotision();
+})
 
 
-
-
-
-
-
-
-
-// function dragenter(){
-//     console.log('teste');
-// }
-// function dragover(){
-//     this.classList.add('over');
-//     // get dragging card
-//     const cardBeingDragged = document.querySelector('.is-dragging');
-//     this.appendChild(cardBeingDragged);
-// }
-
-// function drop() {
-//     // this.classList.remove('over');
-//     // dropId = this.id
-//     // console.log(dropId);
-// }
-
-
-
-// *********************************
-// Systems still under development
-// *********************************
-
-
-
-// function insertAfter(referenceNode, newNode) {
-//     referenceNode.parentNode.insertBefore(newNode, referenceNode.nextSibling);
-// }
-
-
-// let libImgPositions = [
-//     { id: 1, url: 'teste.com' }
-// ]
-
-
-// dragElement(document.getElementById("mydiv"));
-
-
-// document.querySelector("button").onclick = function() {
-//     var ta = document.querySelector("textarea");
-//     ta.value = ta.value.substring(0, ta.selectionStart) +
-//         "tchau" +
-//         ta.value.substring(ta.selectionEnd);
-//     console.log(ta.value);
-// }
-
-// writerArea.addEventListener('select', selecionaTexto());
-
-// function selecionaTexto() {
-// var textArea = document.getElementById('texto');
-// var selectedText;
-
-// const defaultImgLibrary = [];
-// // insert default database to use if the localStorage is 0
-// function create() {
-//     console.log(localStorage.length);
-//     for (i = 0; i < localStorage.length; i++) {
-//         let checkStorage = localStorage.getItem('urlPosition' + i);
-//         if (checkStorage != null) {
-//             for (i = 0; i < localStorage.length; i++) {
-
-//                 // let imgLibDef = document.getElementById('img-lib');
-//                 // let img = document.createElement('img');
-//                 let url = localStorage.getItem('urlPosition' + i)
-//                 img.className = 'droppable-img';
-//                 img.setAttribute('draggable', 'true');
-//                 img.setAttribute('id', 'a' + i);
-//                 img.setAttribute('src', url);
-//                 imgLibDef.appendChild(img);
-//                 let imgs = document.querySelectorAll('.droppable-img');
-//                 imgs.forEach(img => {
-//                     img.addEventListener('dragstart', dragstart);
-//                     img.addEventListener('dragend', dragend);
-//                 })
-//             }
-//         } else {
-//             for (let i = 0; i < defaultImgLibrary.length; i++) {
-//                 let imgLibDef = document.getElementById('img-lib');
-//                 let img = document.createElement('img');
-//                 let url = defaultImgLibrary[i];
-//                 let imgs = document.querySelectorAll('.droppable-img');
-
-//                 img.className = 'droppable-img';
-//                 img.setAttribute('draggable', 'true');
-//                 img.setAttribute('id', 'a' + i);
-//                 img.setAttribute('src', url);
-//                 imgLibDef.appendChild(img);
-
-//                 imgs.forEach(img => {
-//                     img.addEventListener('dragstart', dragstart);
-//                     img.addEventListener('dragend', dragend);
-//                 })
-//             }
-//         }
-//     }
-// }
-
-
-
-
-
-
-// function filterOption() {
-
-// }
-// console.log(orderBy(imgList));
+// listen dragstart events performed on the screen and triggers the 'save elements' function to save the new position
+document.getElementById('img-lib').addEventListener('dragstart', e => {
+    console.log('saveImgPotision');
+    saveImgPotision();
+})

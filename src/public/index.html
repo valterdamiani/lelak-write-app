@@ -4,30 +4,46 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <!-- System title -->
     <title>The Writer</title>
+
+    <!-- Shortcut icon -->
     <link rel="shortcut icon" href="../create-black-18dp.svg" />
+
+    <!-- Cascading Style Sheets -->
     <link rel="stylesheet" href="style.css">
+
+    <!-- Icon library -->
     <link href="https://fonts.googleapis.com/icon?family=Material+Icons" rel="stylesheet">
 </head>
 
 <body onload="create()">
+    <!-- System header -->
     <h1 class="title" id="title">The Writer</h1>
     <div class="box">
         <div class="subbox">
+            <!-- Library of pre-defined elements -->
             <div class="left-nav">
                 <h3 class="side-nav-title" color="red">Image Library</h3>
                 <div class="library-options">
+                    <!-- Manual saving buttons for sorting and displaying filter options -->
                     <i class="material-icons" onclick="openFilter()">filter_list</i>
                     <i class="material-icons" onclick="saveImgPotision()">save</i>
+
+                    <!-- Element selection filter -->
                     <div class="filter-box" style="display: none;" id="filterBox">
                         <h2 class="filter-title">Select a filter</h2>
                         <p class="filter-subtitle">Order by</p>
                         <div class="filter-subbox">
+
+                            <!-- Ordering option based on ID -->
                             <div class="filter-id-box">
                                 <i class="material-icons filter-arrows" onclick="orderBy(this)" id="idUp">arrow_drop_up</i>
                                 <div class="filter-option">ID</div>
                                 <i class="material-icons filter-arrows" onclick="orderBy(this)" id="idDown">arrow_drop_down</i>
                             </div>
+
+                            <!-- Ordering option based on Name -->
                             <div class="filter-name-box">
                                 <i class="material-icons filter-arrows" onclick="orderBy(this)" id="nameUp">arrow_drop_up</i>
                                 <div class="filter-option">Name</div>
@@ -36,37 +52,52 @@
                         </div>
                     </div>
                 </div>
+
+                <!-- Library of predefined elements for use in creating the document, the elements can be reordered using filters or manually. Positions are saved whenever an element is dragged -->
                 <div class="dropzone" id="img-lib">
+
                 </div>
             </div>
             <div class="paper">
+                <!-- Writing area, simulating blank page A4 format -->
                 <textarea id="writer-area" class="dropzone">
                 </textarea>
             </div>
+
+            <!-- side toolbar -->
             <div class="right-nav">
+
+                <!-- Tools for 'page printing' and 'creating a new blank page' -->
                 <div class="save-print-box">
                     <i class="material-icons" onclick="clearPage()">autorenew</i>
-                    <i class="material-icons" onclick="saveData()">save</i>
                     <i class="material-icons" onclick="window.print()">local_printshop</i>
                 </div>
+
+                <!-- Alignment tool for elements in the writing area -->
                 <div class="align-box">
                     <i class="material-icons" onclick="align(this)" id="left">format_align_left</i>
                     <i class="material-icons" onclick="align(this)" id="center">format_align_center</i>
                     <i class="material-icons" onclick="align(this)" id="right">format_align_right</i>
                     <i class="material-icons" onclick="align(this)" id="justify">format_align_justify</i>
                 </div>
+
+                <!-- Text styling tools for bold, italic or underline -->
                 <div class="font-box">
                     <i class="material-icons" onclick="toBold()" id="bold">format_bold</i>
                     <i class="material-icons" onclick="toItalic()">format_italic</i>
                     <i class="material-icons" onclick="toUnderline()">format_underlined</i>
                 </div>
+
+                <!-- Font size change tool -->
                 <div class="size-box">
                     <i class="material-icons" onclick="changeFontSize(this)" id="up">expand_less</i>
                     <input type="number" placeholder="FS" class="font-size-field" id="fSize" value='12'>
                     <i class="material-icons" onclick="changeFontSize(this)" id="down">expand_more</i>
                 </div>
+
+                <!-- Color selection box -->
                 <div class="color-box">
-                    <i class="material-icons" style="background-color: rgb(100, 170, 196) !important; margin: 5px;">format_color_text</i>
+                    <i class="material-icons" style="background-color: #FAA916 !important; margin: 5px;">format_color_text</i>
                     <p class="color-icons" onclick="changeColor(this)" id="black"></p>
                     <p class="color-icons" onclick="changeColor(this)" id="white"></p>
                     <p class="color-icons" onclick="changeColor(this)" id="red"></p>
